@@ -13,7 +13,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="List Addresses"/>
+          <text value="Display"/>
         </properties>
       </component>
       <scrollpane id="107b8" binding="scrollPane">
