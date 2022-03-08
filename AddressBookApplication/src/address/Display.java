@@ -1,34 +1,31 @@
 package address;
 
-import address.data.AddressBook;
-
 import javax.swing.*;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.TitledBorder;
-import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Display {
-    public static void main(AddressBook ab) {
+    private JButton button;
+    private JPanel panelMain;
 
-        JFrame f = new JFrame();
-        JPanel p = new JPanel();
-        JPanel test = new JPanel();
-        JButton b = new JButton("press");
-        JTextArea text = new JTextArea(20,20);
-        JScrollPane scroll = new JScrollPane(text);
+    public Display() {
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
-        text.setEditable(false);
-        scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        b.setText("Press");
-        b.setSize(10,10);
+                JOptionPane.showMessageDialog(null, "Hello");
 
-        p.add(scroll);
-        test.add(b);
-        f.add(p);
-        f.add(test);
+            }
+        });
+    }
 
-        f.pack();
-        f.setVisible(true);
+    public static void main(String[] args) {
+
+        JFrame frame = new JFrame("Display");
+        frame.setContentPane(new Display().panelMain);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
 
     }
 }
