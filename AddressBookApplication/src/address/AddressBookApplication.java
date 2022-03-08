@@ -2,6 +2,8 @@ package address;
 import address.data.AddressBook;
 import address.data.AddressEntry;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.*;
 import java.util.*;
 
@@ -24,12 +26,20 @@ public class AddressBookApplication {
 
         //create instance of AddressBook for application
         AddressBook ab = new AddressBook();
-        initAddressBook(ab);
 
+        //creates window with Display button
+        JFrame frame = new JFrame("Display");
+        frame.setContentPane(new Display(ab).getJPanel());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
+        frame.setMinimumSize(new Dimension(400, 400));
+
+        initAddressBook(ab);
 
         //Code to Loop until user chooses to Quit
         //Display Menu of options, based on user's choice
-        //invoke apprpriate code.
+        //invoke appropriate code.
         Scanner keyboard = new Scanner(System.in);
         String answer;
 
