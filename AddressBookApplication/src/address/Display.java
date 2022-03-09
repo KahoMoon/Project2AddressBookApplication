@@ -36,6 +36,7 @@ public class Display {
 
             }
         });
+        /*
         {   //Initializes a new text pane for a scrollable pane
             JFrame frame = new JFrame("Scrollpane");
             //Sets the layout for the frame
@@ -48,6 +49,7 @@ public class Display {
             //Sets the scrollpane to always be visible
             frame.setVisible(true);
         }
+         */
     }
 
     /**
