@@ -11,13 +11,9 @@ package address.data;
 public class AddressEntry implements Comparable<AddressEntry>{
 
     /**
-     * first name
+     * first/last name
      */
-    private String firstName;
-    /**
-     * last name
-     */
-    private String lastName;
+    private Name name;
     /**
      * street
      */
@@ -47,8 +43,9 @@ public class AddressEntry implements Comparable<AddressEntry>{
      *
      */
     public AddressEntry() {
-        firstName = "";
-        lastName = "";
+        name = new Name();
+        name.setFirstName("");
+        name.setLastName("");
         street = "";
         city = "";
         state = "";
@@ -71,8 +68,7 @@ public class AddressEntry implements Comparable<AddressEntry>{
     public AddressEntry(String firstName, String lastName, String street,
                         String city, String state, int zip, String email, String phone)
     {
-        this.firstName = firstName;
-        this.lastName = lastName;
+        name = new Name(firstName, lastName);
         this.street = street;
         this.city = city;
         this.state = state;
@@ -83,16 +79,16 @@ public class AddressEntry implements Comparable<AddressEntry>{
 
     @Override
     public String toString() {
-        return firstName + " " + lastName + "\n   " +
+        return name.getFirstName() + " " + name.getLastName() + "\n   " +
                 street + "\n   " + city + ", " + state + " " + zip +
                 "\n   " + email + "\n   " + phone;
     }
 
     @Override
     public int compareTo(AddressEntry other) {
-        if(this.lastName.compareTo(other.lastName) != 0)
-            return this.lastName.compareTo(other.lastName);
-        else if(this.firstName.compareTo(other.firstName) == 0 &&
+        if(this.name.getLastName().compareTo(other.name.getLastName()) != 0)
+            return this.name.getLastName().compareTo(other.name.getLastName());
+        else if(this.name.getFirstName().compareTo(other.name.getFirstName()) == 0 &&
                 this.city.compareTo(other.city) == 0 &&
                 this.phone.compareTo(other.phone) == 0 &&
                 this.state.compareTo(other.state) == 0 &&
@@ -109,13 +105,13 @@ public class AddressEntry implements Comparable<AddressEntry>{
      *
      * @param firstName is a firstname
      */
-    public void setFirstName(String firstName) { this.firstName = firstName; }
+    public void setFirstName(String firstName) { this.name.setFirstName(firstName); }
 
     /** method to set the last name of the address entry
      *
      * @param lastName is a lastName
      */
-    public void setLastName(String lastName) { this.lastName = lastName; }
+    public void setLastName(String lastName) { this.name.setLastName(lastName); }
 
     /** method to set the street name of an address entry
      *
@@ -157,13 +153,13 @@ public class AddressEntry implements Comparable<AddressEntry>{
      *
      * @return a String which represents first name
      */
-    public String getFirstName() { return firstName; }
+    public String getFirstName() { return name.getFirstName(); }
 
     /** method to return the last name of the address entry
      *
      * @return a String which represents last name
      */
-    public String getLastName() { return lastName; }
+    public String getLastName() { return name.getLastName(); }
 
     /** method to return the street name of the address entry
      *

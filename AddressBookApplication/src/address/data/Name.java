@@ -26,7 +26,7 @@ public class Name {
         lastName = "";
     }
 
-    /**returns an Name initialized to the data in parameters provided
+    /**returns a Name initialized to the data in parameters provided
      *
      * @param firstName is a firstname
      * @param lastName is a listname
@@ -38,7 +38,6 @@ public class Name {
         this.lastName = lastName;
     }
 
-    @Override
     public String toString() {
         return firstName + " " + lastName;
     }
