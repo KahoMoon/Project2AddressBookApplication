@@ -15,21 +15,9 @@ public class AddressEntry implements Comparable<AddressEntry>{
      */
     private Name name;
     /**
-     * street
+     * street/city/state/zip
      */
-    private String street;
-    /**
-     * city
-     */
-    private String city;
-    /**
-     * state
-     */
-    private String state;
-    /**
-     * zip code
-     */
-    private Integer zip;
+    private Address address;
     /**
      * phone number
      */
@@ -38,6 +26,7 @@ public class AddressEntry implements Comparable<AddressEntry>{
      * email
      */
     private String email;
+    private Integer ID;
 
     /**returns an AddressEntry where all fields are initialized to default values
      *
@@ -46,10 +35,11 @@ public class AddressEntry implements Comparable<AddressEntry>{
         name = new Name();
         name.setFirstName("");
         name.setLastName("");
-        street = "";
-        city = "";
-        state = "";
-        zip = 0;
+        address = new Address();
+        address.setStreet("");
+        address.setCity("");
+        address.setState("");
+        address.setZip(0);
         phone = "";
         email = "";
     }
@@ -69,10 +59,7 @@ public class AddressEntry implements Comparable<AddressEntry>{
                         String city, String state, int zip, String email, String phone)
     {
         name = new Name(firstName, lastName);
-        this.street = street;
-        this.city = city;
-        this.state = state;
-        this.zip = zip;
+        address = new Address(street, city, state, zip);
         this.phone = phone;
         this.email = email;
     }
@@ -80,7 +67,7 @@ public class AddressEntry implements Comparable<AddressEntry>{
     @Override
     public String toString() {
         return name.getFirstName() + " " + name.getLastName() + "\n   " +
-                street + "\n   " + city + ", " + state + " " + zip +
+                address.getStreet() + "\n   " + address.getCity() + ", " + address.getState() + " " + address.getZip() +
                 "\n   " + email + "\n   " + phone;
     }
 
@@ -89,12 +76,12 @@ public class AddressEntry implements Comparable<AddressEntry>{
         if(this.name.getLastName().compareTo(other.name.getLastName()) != 0)
             return this.name.getLastName().compareTo(other.name.getLastName());
         else if(this.name.getFirstName().compareTo(other.name.getFirstName()) == 0 &&
-                this.city.compareTo(other.city) == 0 &&
+                this.address.getCity().compareTo(other.address.getCity()) == 0 &&
                 this.phone.compareTo(other.phone) == 0 &&
-                this.state.compareTo(other.state) == 0 &&
-                this.street.compareTo(other.street) == 0 &&
+                this.address.getState().compareTo(other.address.getState()) == 0 &&
+                this.address.getStreet().compareTo(other.address.getStreet()) == 0 &&
                 this.email.compareTo(other.email) == 0 &&
-                this.zip.compareTo(other.zip) == 0) {
+                this.address.getZip().compareTo(other.address.getZip()) == 0) {
             return 0;
         }
         else
@@ -117,25 +104,25 @@ public class AddressEntry implements Comparable<AddressEntry>{
      *
      * @param street is a street
      */
-    public void setStreet(String street) { this.street = street; }
+    public void setStreet(String street) { this.address.setStreet(street); }
 
     /** method to set the city name of the address entry
      *
      * @param city is a city
      */
-    public void setCity(String city) { this.city = city; }
+    public void setCity(String city) { this.address.setCity(city); }
 
     /** method to set the state name of the address entry
      *
      * @param state is a state
      */
-    public void setState(String state) { this.state = state; }
+    public void setState(String state) { this.address.setState(state); }
 
     /** method to set the zip code of the address entry
      *
      * @param zip is a zip code
      */
-    public void setZip(int zip) { this.zip = zip; }
+    public void setZip(int zip) { this.address.setZip(zip); }
 
     /** method to set the phone of the address entry
      *
@@ -165,25 +152,25 @@ public class AddressEntry implements Comparable<AddressEntry>{
      *
      * @return a String which represents street
      */
-    public String getStreet() { return street; }
+    public String getStreet() { return address.getStreet(); }
 
     /** method to return the city name of the address entry
      *
      * @return a String which represents city
      */
-    public String getCity() { return city; }
+    public String getCity() { return address.getCity(); }
 
     /** method to return the state name of the address entry
      *
      * @return a String which represents state
      */
-    public String getState() { return state; }
+    public String getState() { return address.getState(); }
 
     /** method to return the zip code of the address entry
      *
      * @return an int which represents zip code
      */
-    public int getZip() { return zip; }
+    public int getZip() { return address.getZip(); }
 
     /** method to return the phone number of the address entry
      *

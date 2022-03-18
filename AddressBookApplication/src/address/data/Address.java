@@ -103,6 +103,6 @@ public class Address{
      *
      * @return an int which represents zip code
      */
-    public int getZip() { return zip; }
+    public Integer getZip() { return zip; }
 
 }
