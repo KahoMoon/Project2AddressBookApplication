@@ -26,7 +26,10 @@ public class AddressEntry implements Comparable<AddressEntry>{
      * email
      */
     private String email;
-    private Integer ID;
+    /**
+     * id
+     */
+    private Integer id;
 
     /**returns an AddressEntry where all fields are initialized to default values
      *
@@ -42,12 +45,13 @@ public class AddressEntry implements Comparable<AddressEntry>{
         address.setZip(0);
         phone = "";
         email = "";
+        id = 999999999;
     }
 
     /**returns an address entry initialized to the data in parameters provided
      *
-     * @param firstName is a firstname
-     * @param lastName is a listname
+     * @param firstName is a firstName
+     * @param lastName is a listName
      * @param street is a street
      * @param city is a city
      * @param state is a state
@@ -62,6 +66,46 @@ public class AddressEntry implements Comparable<AddressEntry>{
         address = new Address(street, city, state, zip);
         this.phone = phone;
         this.email = email;
+    }
+
+    /**returns an address entry initialized to the data in parameters provided
+     *
+     * @param firstName is a firstName
+     * @param lastName is a listName
+     * @param street is a street
+     * @param city is a city
+     * @param state is a state
+     * @param zip is a zip code
+     * @param phone is a phone number
+     * @param email is an email
+     * @param id is an id
+     */
+    public AddressEntry(String firstName, String lastName, String street,
+                        String city, String state, Integer zip, String email, String phone, Integer id)
+    {
+        name = new Name(firstName, lastName);
+        address = new Address(street, city, state, zip);
+        this.phone = phone;
+        this.email = email;
+        this.id = id;
+    }
+
+    /**
+     * returns an address entry initialized to the data in parameters provided
+     * @param name is an instance of Name
+     * @param address is an instance of Address
+     * @param email is an email
+     * @param phone is a phone number
+     * @param id is an id
+     */
+    public AddressEntry(Name name, Address address, String email, String phone, Integer id){
+
+        this.name = new Name(name.getFirstName(), name.getLastName());
+        this.address = new Address(address.getStreet(), address.getCity(), address.getState(), address.getZip());
+        this.email = email;
+        this.phone = phone;
+        this.id = id;
+
     }
 
     @Override
