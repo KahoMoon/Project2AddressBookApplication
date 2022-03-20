@@ -78,7 +78,7 @@ public class AddressBookApplication {
     }
 
     /**
-     * initializes 2 AddressEntry instances with hard-coded data. Then adds entries to AddressBook class passed to function.
+     * initializes AddressBook with entries in database
      * @param ab is an instance of AddressBook class
      */
     public static void initAddressBook(AddressBook ab) throws SQLException, ClassNotFoundException{
