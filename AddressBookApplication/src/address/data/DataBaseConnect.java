@@ -56,11 +56,13 @@ public class DataBaseConnect {
 
         // Iterate through the result and print the employee names
 
-        while (rset.next ()) //get next row of table returned
+        while (rset.next ()) {
 
-        {         for(int i=1; i<=rset.getMetaData().getColumnCount(); i++) //visit each column
+            for(int i=1; i<=rset.getMetaData().getColumnCount(); i++) {
 
-            System.out.print(rset.getString(i) + " | ");
+                System.out.print(rset.getString(i) + " | ");
+
+            }
 
             System.out.println(" ");
 
