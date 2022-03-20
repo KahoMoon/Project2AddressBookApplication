@@ -52,6 +52,19 @@ public class Address{
         this.zip = zip;
     }
 
+    /**
+     * returns an Address initialized to the data the same data in the given Address instance
+     * @param address is an instance of Address
+     */
+    public Address(Address address){
+
+        this.street = address.getStreet();
+        this.city = address.getCity();
+        this.state = address.getState();
+        this.zip = address.getZip();
+
+    }
+
     @Override
     public String toString() {
         return street + "\n   " + city + ", " + state + " " + zip;
