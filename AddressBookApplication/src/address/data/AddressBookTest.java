@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.sql.SQLException;
 
 /**
  * @author Student Name
@@ -69,7 +70,7 @@ public class AddressBookTest {
      * AddressEntry objects which are private fields. It does this before every test is run
      */
     @BeforeEach
-    public void createAddressEntryObject() {
+    public void createAddressEntryObject() throws ClassNotFoundException, SQLException {
         this.ab = new AddressBook();
         ab.add(ae1);
         ab.add(ae2);
@@ -101,7 +102,7 @@ public class AddressBookTest {
      * Test method for {@link AddressBook#list()}.
      */
     @Test
-    void testList() {
+    void testList() throws SQLException, ClassNotFoundException {
         this.testToString();
     }
 
@@ -126,7 +127,7 @@ public class AddressBookTest {
      * Test method for {@link AddressBook#add(AddressEntry)}
      */
     @Test
-    void testAdd() {
+    void testAdd() throws ClassNotFoundException, SQLException {
         ab.clear();
         ab.add(ae1);
         ab.add(ae4);
@@ -201,7 +202,7 @@ public class AddressBookTest {
      * Test method for {@link AddressBook#toString()}
      */
     @Test
-    void testToString() {
+    void testToString() throws ClassNotFoundException, SQLException {
         ab.clear();
         //We dont know if add works properly. This test is invalid and shows nothing!!!! For example imagine that add does
         //not work properly so it inputs garbage data. toString does work properly either. In fact it is so bad that it
