@@ -22,6 +22,8 @@ public class AddressBook {
      */
     private final TreeMap<String, TreeSet<AddressEntry>> addressEntryList = new TreeMap<>();
 
+    static int idPlaceholder = 99999;
+
     /** a method which prints out all fields in all entries of the address book
      *
      */
@@ -180,7 +182,15 @@ public class AddressBook {
         Integer zip = entry.getZip();
         String email = entry.getEmail();
         String phone = entry.getPhone();
-        Integer id = entry.getId();
+        Integer id;
+
+        if(!(entry.getId() == null)){
+            id = entry.getId();
+        }else{
+            id = idPlaceholder;
+            idPlaceholder--;
+        }
+
 
         create(firstName, lastName, street, city, state, zip, email, phone, id);
 
