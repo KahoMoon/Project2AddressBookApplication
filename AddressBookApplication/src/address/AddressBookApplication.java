@@ -93,7 +93,7 @@ public class AddressBookApplication {
 
         while (rset.next ()){ //get next row of table returned
 
-            ab.add(new AddressEntry(rset.getString("FirstNAME"), rset.getString("LASTNAME"), rset.getString("STREET"), rset.getString("CITY"), rset.getString("STATE"), Integer.parseInt(rset.getString("ZIP")), rset.getString("EMAIL"), rset.getString("PHONE"), Integer.parseInt(rset.getString("ID"))));
+            ab.addLocally(new AddressEntry(rset.getString("FirstNAME"), rset.getString("LASTNAME"), rset.getString("STREET"), rset.getString("CITY"), rset.getString("STATE"), Integer.parseInt(rset.getString("ZIP")), rset.getString("EMAIL"), rset.getString("PHONE"), Integer.parseInt(rset.getString("ID"))));
 
         }
 
