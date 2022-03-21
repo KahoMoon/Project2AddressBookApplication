@@ -1,5 +1,6 @@
 package address.data;
 
+import java.sql.*;
 import java.util.*;
 import java.io.*;
 
@@ -81,15 +82,67 @@ public class AddressBook {
         }
     }
 
-    /** a method which adds an address entry to the address book
+    /**
+     * format for PreparedStatement
+     */
+    private static final String SQL_INSERT = "INSERT INTO ADDRESSENTRYTABLE (FIRSTNAME, LASTNAME, STREET, CITY, STATE, ZIP, EMAIL, PHONE, ID)"
+            + " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    /**
+     * a method which creates an entry in the database with the given parameters
+     * @param firstName is the first name
+     * @param lastName is the last name
+     * @param street is the street
+     * @param city is the city
+     * @param state is the state
+     * @param zip is the zip
+     * @param email is the email
+     * @param phone is the phone
+     * @param id is the id
+     * @throws SQLException SQL error
+     */
+    public void create(String firstName, String lastName, String street, String city, String state, Integer zip, String email, String phone, Integer id) throws SQLException {
+        try (
+                Connection connection = DriverManager.getConnection("jdbc:oracle:thin:mcs1011/y_WrlhyT@adcsdb01.csueastbay.edu:1521/mcspdb.ad.csueastbay.edu");
+                PreparedStatement statement = connection.prepareStatement(SQL_INSERT);
+        ) {
+            statement.setString(1, firstName);
+            statement.setString(2, lastName);
+            statement.setString(3, street);
+            statement.setString(4, city);
+            statement.setString(5, state);
+            statement.setInt(6, zip);
+            statement.setString(7, email);
+            statement.setString(8, phone);
+            statement.setInt(9, id);
+            statement.executeUpdate();
+        }
+    }
+
+    /** a method which adds an address entry to the address book and database
      *
      * @param entry is an instance of AddressEntry to add to the AddressBook
      *
      * If the key has never been seen before then a new TreeSet is created to contain the entry.
      * If the key has been seen before then entry is simply added to the correct set.
      */
-    public void add(AddressEntry entry) {
+    public void add(AddressEntry entry) throws ClassNotFoundException, SQLException {
         addressEntryList.computeIfAbsent(entry.getLastName(), k -> new TreeSet<>()).add(entry);
+
+        Class.forName ("oracle.jdbc.OracleDriver"); //name of driver may change w/ versions
+
+        String firstName = entry.getFirstName();
+        String lastName = entry.getLastName();
+        String street = entry.getStreet();
+        String city = entry.getCity();
+        String state = entry.getState();
+        Integer zip = entry.getZip();
+        String email = entry.getEmail();
+        String phone = entry.getPhone();
+        Integer id = entry.getId();
+
+        create(firstName, lastName, street, city, state, zip, email, phone, id);
+
     }
 
     /** a method which reads in address entries from a text file and adds them to the address book
@@ -122,9 +175,11 @@ public class AddressBook {
             //print out message for file not found
             System.out.println(e.getMessage());
         }
-        catch(IOException ex) {
+        catch(IOException | SQLException ex) {
             //print out stack for other exceptions
             ex.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
