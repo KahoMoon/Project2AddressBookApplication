@@ -83,7 +83,7 @@ public class AddressBook {
     }
 
     /**
-     * format for PreparedStatement
+     * format for PreparedStatement for INSERT
      */
     private static final String SQL_INSERT = "INSERT INTO ADDRESSENTRYTABLE (FIRSTNAME, LASTNAME, STREET, CITY, STATE, ZIP, EMAIL, PHONE, ID)"
             + " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -121,7 +121,7 @@ public class AddressBook {
 
     /** a method which adds an address entry to the address book and database
      *
-     * @param entry is an instance of AddressEntry to add to the AddressBook
+     * @param entry the instance of AddressEntry beijng added to the AddressBook and database
      *
      * If the key has never been seen before then a new TreeSet is created to contain the entry.
      * If the key has been seen before then entry is simply added to the correct set.
@@ -143,6 +143,14 @@ public class AddressBook {
 
         create(firstName, lastName, street, city, state, zip, email, phone, id);
 
+    }
+
+    /**
+     * a method which adds an address entry to the address book only
+     * @param entry the instance of AddressEntry being added to the AddressBook
+     */
+    public void addLocally(AddressEntry entry){
+        addressEntryList.computeIfAbsent(entry.getLastName(), k -> new TreeSet<>()).add(entry);
     }
 
     /** a method which reads in address entries from a text file and adds them to the address book
