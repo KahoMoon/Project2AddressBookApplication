@@ -2,10 +2,7 @@ package address.data;
 
 import address.data.AddressBook;
 import address.data.AddressEntry;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -36,22 +33,22 @@ public class AddressBookTest {
     /**
      * An instance of AddressEntry to load into AddressBook
      */
-    private final AddressEntry ae1 = new AddressEntry("John", "A", "Arroyo", "Dublin", "NY", 81777, "boring@gmail.com", "925-123-7924");
+    private final AddressEntry ae1 = new AddressEntry("John", "A", "Arroyo", "Dublin", "NY", 81777, "boring@gmail.com", "925-123-7924", 30);
 
     /**
      * An instance of AddressEntry to load into AddressBook
      */
-    private final AddressEntry ae2 = new AddressEntry("John", "Doe", "Arroyo", "Dublin", "NY", 81777, "boring@gmail.com", "925-123-7924");
+    private final AddressEntry ae2 = new AddressEntry("John", "Doe", "Arroyo", "Dublin", "NY", 81777, "boring@gmail.com", "925-123-7924", 31);
 
     /**
      * An instance of AddressEntry to load into AddressBook
      */
-    private final AddressEntry ae3 = new AddressEntry("John", "Dof", "Arroyo", "Dublin", "NY", 81777, "boring@gmail.com", "925-123-7924");
+    private final AddressEntry ae3 = new AddressEntry("John", "Dof", "Arroyo", "Dublin", "NY", 81777, "boring@gmail.com", "925-123-7924", 32);
 
     /**
      * An instance of AddressEntry to load into AddressBook
      */
-    private final AddressEntry ae4 = new AddressEntry("John", "A", "Arroyo", "Dublin", "NY", 81777, "boring@gmail.com", "925-123-7924");
+    private final AddressEntry ae4 = new AddressEntry("John", "A", "Arroyo", "Dublin", "NY", 81777, "boring@gmail.com", "925-123-7924", 33);
 
     /**
      * A method which sets standard output to print to testOutput instead of the console
@@ -83,8 +80,9 @@ public class AddressBookTest {
      * to be the stream with System prints to instead of the console
      */
     @AfterEach
-    public void cleanUp() {
+    public void cleanUp() throws SQLException {
         testOutput.reset();
+        //ab.clear();
         System.setIn(System.in);
     }
 
@@ -130,9 +128,9 @@ public class AddressBookTest {
     void testAdd() throws ClassNotFoundException, SQLException {
         ab.clear();
         ab.add(ae1);
-        ab.add(ae4);
+        //ab.add(ae4);
 
-        String expected = "1: John A\n   Arroyo\n   Dublin, NY 81777\n   boring@gmail.com\n   925-123-7924\n\n";
+        String expected = "1: John A\n   Arroyo\n   Dublin, NY 81777\n   boring@gmail.com\n   925-123-7924\n   30\n\n";
         assertEquals(expected, ab.toString());
     }
 
@@ -140,13 +138,13 @@ public class AddressBookTest {
      * Test method for {@link AddressBook#readFromFile(java.lang.String)}
      */
     @Test
-    void testReadFromFile() {
+    void testReadFromFile() throws SQLException {
         ab.clear();
-        ab.readFromFile("test.txt");
+        ab.readFromFile("AddressBookApplication/test.txt");
         String expected = "";
-        expected += "1: John A\n   Arroyo\n   Dublin, NY 81777\n   boring@gmail.com\n   111-234-7924\n\n";
-        expected += "2: John Doe\n   Arroyo\n   Dublin, NY 81777\n   boring@gmail.com\n   111-234-7924\n\n";
-        expected += "3: John Dof\n   Arroyo\n   Dublin, NY 81777\n   boring@gmail.com\n   111-234-7924\n\n";
+        expected += "1: John A\n   Arroyo\n   Dublin, NY 81777\n   boring@gmail.com\n   111-234-7924\n   1\n\n";
+        expected += "2: John Doe\n   Arroyo\n   Dublin, NY 81777\n   boring@gmail.com\n   111-234-7924\n   3\n\n";
+        expected += "3: John Dof\n   Arroyo\n   Dublin, NY 81777\n   boring@gmail.com\n   111-234-7924\n   2\n\n";
         assertEquals(expected, ab.toString());
     }
 
@@ -193,7 +191,7 @@ public class AddressBookTest {
      * Test method for {@link AddressBook#clear()}
      */
     @Test
-    void testClear() {
+    void testClear() throws SQLException {
         ab.clear();
         assertEquals("", ab.toString());
     }
@@ -212,15 +210,15 @@ public class AddressBookTest {
         assertEquals(expected, ab.toString());
 
         ab.add(ae1);
-        expected += "1: John A\n   Arroyo\n   Dublin, NY 81777\n   boring@gmail.com\n   925-123-7924\n\n";
+        expected += "1: John A\n   Arroyo\n   Dublin, NY 81777\n   boring@gmail.com\n   925-123-7924\n   30\n\n";
         assertEquals(expected, ab.toString());
 
-        expected += "2: John Doe\n   Arroyo\n   Dublin, NY 81777\n   boring@gmail.com\n   925-123-7924\n\n";
+        expected += "2: John Doe\n   Arroyo\n   Dublin, NY 81777\n   boring@gmail.com\n   925-123-7924\n   31\n\n";
         ab.add(ae2);
         assertEquals(expected, ab.toString());
 
         ab.add(ae3);
-        expected += "3: John Dof\n   Arroyo\n   Dublin, NY 81777\n   boring@gmail.com\n   925-123-7924\n\n";
+        expected += "3: John Dof\n   Arroyo\n   Dublin, NY 81777\n   boring@gmail.com\n   925-123-7924\n   32\n\n";
         assertEquals(expected, ab.toString());
     }
 
