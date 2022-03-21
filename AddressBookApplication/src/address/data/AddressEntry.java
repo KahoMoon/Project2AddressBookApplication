@@ -180,6 +180,14 @@ public class AddressEntry implements Comparable<AddressEntry>{
      */
     public void setEmail(String email) { this.email = email; }
 
+    /**
+     * method to set the id of the address entry
+     * @param id is an id
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     /** method to return the first name of the address entry
      *
      * @return a String which represents first name
@@ -227,4 +235,12 @@ public class AddressEntry implements Comparable<AddressEntry>{
      * @return a String which represents email
      */
     public String getEmail() { return email; }
+
+    /**
+     * method to return the id of the address entry
+     * @return an Integer which represents the id
+     */
+    public Integer getId() {
+        return id;
+    }
 }
