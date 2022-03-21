@@ -88,6 +88,8 @@ public class AddressBook {
                 System.out.printf("%-3s" + s.first() + "\n", " ");
                 System.out.println("Hit 'y' to remove the entry or 'n' to return to main menu");
                 if (keyboard.nextLine().compareTo("y") == 0)
+                    //System.out.println(s.first().getId());
+                    delete(s.first().getFirstName(), s.first().getLastName(), s.first().getStreet(), s.first().getCity(), s.first().getState(), s.first().getZip(), s.first().getEmail(), s.first().getPhone(), s.first().getId());
                     addressEntryList.get(s.first().getLastName()).remove(s.first());
             } else if (s.size() > 1) {
                 ArrayList<AddressEntry> list = new ArrayList<>();
