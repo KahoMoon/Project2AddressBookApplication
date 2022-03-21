@@ -30,6 +30,42 @@ public class AddressBook {
         return this.toString();
     }
 
+    /**
+     * format for PreparedStatement for DELETE
+     */
+    private static final String SQL_DELETE = "DELETE FROM ADDRESSENTRYTABLE WHERE FIRSTNAME=? AND LASTNAME=? AND STREET=? AND CITY=? AND STATE=? AND ZIP=? AND EMAIL=? AND PHONE=? AND ID=?";
+
+    /**
+     * a method which deletes an entry in the database with the given parameters
+     * @param firstName is the first name
+     * @param lastName is the last name
+     * @param street is the street
+     * @param city is the city
+     * @param state is the state
+     * @param zip is the zip
+     * @param email is the email
+     * @param phone is the phone
+     * @param id is the id
+     * @throws SQLException SQL error
+     */
+    public void delete(String firstName, String lastName, String street, String city, String state, Integer zip, String email, String phone, Integer id) throws SQLException {
+        try (
+                Connection connection = DriverManager.getConnection("jdbc:oracle:thin:mcs1011/y_WrlhyT@adcsdb01.csueastbay.edu:1521/mcspdb.ad.csueastbay.edu");
+                PreparedStatement statement = connection.prepareStatement(SQL_DELETE);
+        ) {
+            statement.setString(1, firstName);
+            statement.setString(2, lastName);
+            statement.setString(3, street);
+            statement.setString(4, city);
+            statement.setString(5, state);
+            statement.setInt(6, zip);
+            statement.setString(7, email);
+            statement.setString(8, phone);
+            statement.setInt(9, id);
+            statement.executeUpdate();
+        }
+    }
+
     /** a method which removes an address entry from the address book
      *
      * @param lastName is the last name(or some initial consecutive chars) of the person contained
@@ -40,7 +76,8 @@ public class AddressBook {
      * print out AddressEntry and prompt user if they wish to delete. If more than 1 element in set then print all
      * elements and ask user to select element based on index.
      */
-    public void remove(String lastName) {
+    public void remove(String lastName) throws SQLException {
+
         //first obtain a set which contains all address entries in address book where
         //the first characters of their last name exactly match all of the chars in parameter lastname
         TreeSet<AddressEntry> s = this.getPrefixSet(lastName);
@@ -69,6 +106,8 @@ public class AddressBook {
                 System.out.printf("%-3s" + list.get(removalIndex) + "\n\n", "  ");
                 if (keyboard.nextLine().compareTo("y") == 0) {
                     TreeSet<AddressEntry> set = addressEntryList.get(list.get(removalIndex).getLastName());
+                    //System.out.println("\n ----------------" + list.get(removalIndex).getId());
+                    delete(list.get(removalIndex).getFirstName(), list.get(removalIndex).getLastName(), list.get(removalIndex).getStreet(), list.get(removalIndex).getCity(), list.get(removalIndex).getState(), list.get(removalIndex).getZip(), list.get(removalIndex).getEmail(), list.get(removalIndex).getPhone(), list.get(removalIndex).getId());
                     set.remove(list.get(removalIndex));
                 }
             } else

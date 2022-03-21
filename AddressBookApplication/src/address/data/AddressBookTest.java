@@ -110,7 +110,7 @@ public class AddressBookTest {
      * Test method for {@link AddressBook#remove(java.lang.String)}
      */
     @Test
-    void testRemove() {
+    void testRemove() throws SQLException {
         //I am getting a strange error where the assertEquals will fail but then it claims that either the
         //contents are identical or they differ only in line separators. It has somethings to do with replacing
         //\n with \r\n in a seemingly random combination. This makes its way too difficult to test these functions
