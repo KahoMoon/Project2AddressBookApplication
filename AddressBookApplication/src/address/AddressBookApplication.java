@@ -2,7 +2,10 @@ package address;
 import address.data.AddressBook;
 import address.data.AddressEntry;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.*;
+import java.sql.*;
 import java.util.*;
 
 /**
@@ -20,15 +23,24 @@ public class AddressBookApplication {
      * then prompts the user to add, delete, list, and search for entries.
      * @param args command line arguments passed to main
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
 
         //create instance of AddressBook for application
         AddressBook ab = new AddressBook();
+
+        //creates window with Display button
+        JFrame frame = new JFrame("Display");
+        frame.setContentPane(new Display(ab).getJPanel());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
+        frame.setMinimumSize(new Dimension(400, 400));
+
         initAddressBook(ab);
 
         //Code to Loop until user chooses to Quit
         //Display Menu of options, based on user's choice
-        //invoke apprpriate code.
+        //invoke appropriate code.
         Scanner keyboard = new Scanner(System.in);
         String answer;
 
@@ -66,18 +78,31 @@ public class AddressBookApplication {
     }
 
     /**
-     * initializes 2 AddressEntry instances with hard-coded data. Then adds entries to AddressBook class passed to function.
+     * initializes AddressBook with entries in database
      * @param ab is an instance of AddressBook class
      */
-    public static void initAddressBook(AddressBook ab) {
-        AddressEntry entry1 = new AddressEntry("Sterling", "Jeppson",
-                                                "2759 Vine Dr.","Livermore",
-                                                "CA", 94550, "sterlingijeppson@gmail.com", "925-289-6963");
-        AddressEntry entry2 = new AddressEntry("D.S", "Malik",
-                "2759 Vine Dr.","Livermore",
-                "CA", 94550, "sterlingijeppson@gmail.com","925-289-6963");
-        ab.add(entry1);
-        ab.add(entry2);
+    public static void initAddressBook(AddressBook ab) throws SQLException, ClassNotFoundException{
+
+        Class.forName ("oracle.jdbc.OracleDriver"); //name of driver
+        Connection conn =
+                DriverManager.getConnection("jdbc:oracle:thin:mcs1011/y_WrlhyT@adcsdb01.csueastbay.edu:1521/mcspdb.ad.csueastbay.edu");
+        Statement stmt = conn.createStatement ();
+        ResultSet rset = stmt.executeQuery("SELECT * FROM ADDRESSENTRYTABLE");
+
+        System.out.println(rset);
+
+        while (rset.next ()){ //get next row of table returned
+
+            ab.add(new AddressEntry(rset.getString("FirstNAME"), rset.getString("LASTNAME"), rset.getString("STREET"), rset.getString("CITY"), rset.getString("STATE"), Integer.parseInt(rset.getString("ZIP")), rset.getString("EMAIL"), rset.getString("PHONE"), Integer.parseInt(rset.getString("ID"))));
+
+        }
+
+        rset.close();
+
+        stmt.close();
+
+        conn.close();
+
     }
 
 

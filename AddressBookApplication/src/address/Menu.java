@@ -101,6 +101,22 @@ public class Menu {
         return keyboard.nextLine();
     }
 
+    /**
+     * Prompts the user for an id and returns the int
+     * @return an int which represents the person's id in an AddressEntry
+     */
+    public static int prompt_Id() {
+        while(true) {
+            try {
+                Scanner Keyboard = new Scanner(System.in);
+                System.out.println("Id: ");
+                return Keyboard.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
     /** Instantiates and returns a new AddressEntry with values that are specified by
      * the user with calls to all of the prompt methods
      *
@@ -110,7 +126,7 @@ public class Menu {
 
         return new AddressEntry(prompt_FirstName(), prompt_LastName(), prompt_Street(),
                                 prompt_City(), prompt_State(), prompt_Zip(), prompt_Email(),
-                                prompt_Telephone());
+                                prompt_Telephone(), prompt_Id());
     }
 
     /**
