@@ -5,7 +5,7 @@ import java.util.*;
 import java.io.*;
 
 /**
- * @author Student Name
+ * @author Kaho Moon
  * @version 1.0
  * @since 1.2
  *
@@ -36,7 +36,7 @@ public class AddressBook {
     private static final String SQL_DELETE = "DELETE FROM ADDRESSENTRYTABLE WHERE FIRSTNAME=? AND LASTNAME=? AND STREET=? AND CITY=? AND STATE=? AND ZIP=? AND EMAIL=? AND PHONE=? AND ID=?";
 
     /**
-     * a method which deletes an entry in the database with the given parameters
+     * a method which deletes an entry in the database matching the given parameters
      * @param firstName is the first name
      * @param lastName is the last name
      * @param street is the street
@@ -183,7 +183,7 @@ public class AddressBook {
         Integer id = entry.getId();
 
 
-        create(firstName, lastName, street, city, state, zip, email, phone, id);
+        create(firstName, lastName, street, city, state, zip, email, phone, id);    //create an entry in the database
 
     }
 

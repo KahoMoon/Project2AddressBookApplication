@@ -12,7 +12,7 @@ import java.io.PrintStream;
 import java.sql.SQLException;
 
 /**
- * @author Student Name
+ * @author Kaho
  * @version 1.0
  * @since 1.2
  *

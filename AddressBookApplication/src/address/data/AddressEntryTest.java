@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * @author Student Name
+ * @author Kaho Moon
  * @version 1.0
  * @since 1.2
  *

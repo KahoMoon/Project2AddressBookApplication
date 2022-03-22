@@ -14,6 +14,13 @@ package address.data;/*
 
 import java.sql.*;
 
+/**
+ * @author Kaho Moon
+ * @version 1.0
+ * @since 1.2
+ *
+ * The purpose of this class is to print out all entries in the database
+ */
 public class DataBaseConnect {
 
 
