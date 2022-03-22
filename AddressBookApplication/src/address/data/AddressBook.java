@@ -15,14 +15,12 @@ public class AddressBook {
 
     /**
      * the data structures that will hold the data for the address book. Composed of a TreeMap
-     * where the key is a String(the last name of the AddressEntry and the value is the a TreeSet
-     * AddressEntry. This is because java does not contain a multiset in standard libraries.
+     * where the key is a String(the last name of the AddressEntry) and the value is a TreeSet
+     * of the AddressEntry. This is because java does not contain a multiset in standard libraries.
      * Tree is used instead of hash because tree preserves the natural ordering of key which makes printing in
      * sorted order by last name(key) easy.
      */
     private final TreeMap<String, TreeSet<AddressEntry>> addressEntryList = new TreeMap<>();
-
-    static int idPlaceholder = 99999;
 
     /** a method which prints out all fields in all entries of the address book
      *
@@ -182,14 +180,7 @@ public class AddressBook {
         Integer zip = entry.getZip();
         String email = entry.getEmail();
         String phone = entry.getPhone();
-        Integer id;
-
-        if(!(entry.getId() == null)){
-            id = entry.getId();
-        }else{
-            id = idPlaceholder;
-            idPlaceholder--;
-        }
+        Integer id = entry.getId();
 
 
         create(firstName, lastName, street, city, state, zip, email, phone, id);
@@ -224,7 +215,7 @@ public class AddressBook {
             while((line=br.readLine()) != null) {
 
                 this.add(new AddressEntry(line, br.readLine(), br.readLine(), br.readLine(),
-                                          br.readLine(), Integer.parseInt(br.readLine()), br.readLine(), br.readLine()));
+                                          br.readLine(), Integer.parseInt(br.readLine()), br.readLine(), br.readLine(), Integer.parseInt(br.readLine())));
 
                 count++;
             }
@@ -288,10 +279,17 @@ public class AddressBook {
     }
 
     /**
-     * removes all AddressEntry from the AddressBook
+     * removes all AddressEntry from the AddressBook and database
      */
-    public void clear() {
+    public void clear() throws SQLException {
         addressEntryList.clear();
+        //Class.forName ("oracle.jdbc.OracleDriver"); //name of driver may change w/ versions
+        Connection conn =
+                DriverManager.getConnection("jdbc:oracle:thin:mcs1011/y_WrlhyT@adcsdb01.csueastbay.edu:1521/mcspdb.ad.csueastbay.edu");
+        Statement stmt = conn.createStatement ();
+        stmt.executeQuery("DELETE FROM ADDRESSENTRYTABLE");
+        stmt.close();
+        conn.close();
     }
 
     @Override
