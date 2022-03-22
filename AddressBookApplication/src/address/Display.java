@@ -15,8 +15,13 @@ public class Display {
     private JPanel panelMain;   //the main panel which contains both the button and text box
     private JScrollPane scrollPane; //the scrollable pane
     private JTextArea textArea; //the text box
-    AddressBook ab;
+    AddressBook ab; //instance of address book
 
+
+    /**
+     * creates GUI
+     * @param addressBook is the addressBook that GUI will attach to
+     */
     public Display(AddressBook addressBook) {
 
         ab = addressBook;

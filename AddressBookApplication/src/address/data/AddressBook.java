@@ -23,7 +23,7 @@ public class AddressBook {
     private final TreeMap<String, TreeSet<AddressEntry>> addressEntryList = new TreeMap<>();
 
     /** a method which prints out all fields in all entries of the address book
-     *
+     * @return prints out entry in a formatted string
      */
     public String list() {
         System.out.print(this.toString());
@@ -70,7 +70,7 @@ public class AddressBook {
      *
      * @param lastName is the last name(or some initial consecutive chars) of the person contained
      *                 in the AddressEntry to be removed
-     *
+     * @throws SQLException when there is a database error
      * First we get the prefixSet which is the set of all AddressEntry that have the first consecutive
      * of the lastName of AddressEntry match the lastName parameter passed. If the size of the set is 1 then
      * print out AddressEntry and prompt user if they wish to delete. If more than 1 element in set then print all
@@ -163,7 +163,8 @@ public class AddressBook {
     /** a method which adds an address entry to the address book and database
      *
      * @param entry the instance of AddressEntry beijng added to the AddressBook and database
-     *
+     * @throws SQLException when there is a database error
+     * @throws ClassNotFoundException when correct Oracle driver is not available
      * If the key has never been seen before then a new TreeSet is created to contain the entry.
      * If the key has been seen before then entry is simply added to the correct set.
      */
@@ -280,6 +281,7 @@ public class AddressBook {
 
     /**
      * removes all AddressEntry from the AddressBook and database
+     * @throws SQLException when there is a database error
      */
     public void clear() throws SQLException {
         addressEntryList.clear();

@@ -27,7 +27,9 @@ public class DataBaseConnect {
 
 
     /**
-     * @param args
+     * @param args command line arguments
+     * @throws SQLException when there is a database error
+     * @throws ClassNotFoundException when the correct Oracle driver is not available
      */
     public static void main(String[] args) throws SQLException, ClassNotFoundException{
 

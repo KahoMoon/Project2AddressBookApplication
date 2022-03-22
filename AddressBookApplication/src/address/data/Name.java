@@ -49,22 +49,39 @@ public class Name {
 
     }
 
+    @Override
     public String toString() {
         return firstName + " " + lastName;
     }
 
+    /**
+     * method to get the first name
+     * @return the first name
+     */
     public String getFirstName() {
         return firstName;
     }
 
+    /**
+     * method to get the last name
+     * @return the last name
+     */
     public String getLastName() {
         return lastName;
     }
 
+    /**
+     * method to set the first name
+     * @param firstName is the first name
+     */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
+    /**
+     * method to set the last name
+     * @param lastName is the last name
+     */
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
