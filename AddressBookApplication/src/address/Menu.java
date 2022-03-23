@@ -5,7 +5,7 @@ import address.data.AddressEntry;
 import java.util.*;
 
 /**
- * @author Sterling Jeppson
+ * @author Kaho Moon
  * @version 1.0
  * @since 1.2
  *

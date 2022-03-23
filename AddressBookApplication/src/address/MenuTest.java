@@ -11,7 +11,7 @@ import java.io.PrintStream;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * @author Student Name
+ * @author Kaho Moon
  * @version 1.0
  * @since 1.2
  *
@@ -130,6 +130,16 @@ public class MenuTest {
     }
 
     /**
+     * Test method for {@link Menu#prompt_Email()}.
+     */
+    @Test
+    public void testPrompt_Id() {
+        int id = 678;
+        provideInput(String.valueOf(id));
+        assertEquals(id, Menu.prompt_Id());
+    }
+
+    /**
      * Test method for {@link Menu#prompt_All()}.
      */
     @Test
@@ -150,7 +160,7 @@ public class MenuTest {
     @Test
     public void testDisplay_Menu() {
         Menu.display_Menu();
-        String expected = ("*************************\n"+
+        String expected = ("\n\n*************************\n"+
                 "Please enter your menu selection\n"+
                 "a) Loading From File\n"+
                 "b) Addition\n"+

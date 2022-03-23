@@ -5,7 +5,7 @@ import java.util.*;
 import java.io.*;
 
 /**
- * @author Student Name
+ * @author Kaho Moon
  * @version 1.0
  * @since 1.2
  *
@@ -15,32 +15,69 @@ public class AddressBook {
 
     /**
      * the data structures that will hold the data for the address book. Composed of a TreeMap
-     * where the key is a String(the last name of the AddressEntry and the value is the a TreeSet
-     * AddressEntry. This is because java does not contain a multiset in standard libraries.
+     * where the key is a String(the last name of the AddressEntry) and the value is a TreeSet
+     * of the AddressEntry. This is because java does not contain a multiset in standard libraries.
      * Tree is used instead of hash because tree preserves the natural ordering of key which makes printing in
      * sorted order by last name(key) easy.
      */
     private final TreeMap<String, TreeSet<AddressEntry>> addressEntryList = new TreeMap<>();
 
     /** a method which prints out all fields in all entries of the address book
-     *
+     * @return prints out entry in a formatted string
      */
     public String list() {
         System.out.print(this.toString());
         return this.toString();
     }
 
+    /**
+     * format for PreparedStatement for DELETE
+     */
+    private static final String SQL_DELETE = "DELETE FROM ADDRESSENTRYTABLE WHERE FIRSTNAME=? AND LASTNAME=? AND STREET=? AND CITY=? AND STATE=? AND ZIP=? AND EMAIL=? AND PHONE=? AND ID=?";
+
+    /**
+     * a method which deletes an entry in the database matching the given parameters
+     * @param firstName is the first name
+     * @param lastName is the last name
+     * @param street is the street
+     * @param city is the city
+     * @param state is the state
+     * @param zip is the zip
+     * @param email is the email
+     * @param phone is the phone
+     * @param id is the id
+     * @throws SQLException SQL error
+     */
+    public void delete(String firstName, String lastName, String street, String city, String state, Integer zip, String email, String phone, Integer id) throws SQLException {
+        try (
+                Connection connection = DriverManager.getConnection("jdbc:oracle:thin:mcs1011/y_WrlhyT@adcsdb01.csueastbay.edu:1521/mcspdb.ad.csueastbay.edu");
+                PreparedStatement statement = connection.prepareStatement(SQL_DELETE);
+        ) {
+            statement.setString(1, firstName);
+            statement.setString(2, lastName);
+            statement.setString(3, street);
+            statement.setString(4, city);
+            statement.setString(5, state);
+            statement.setInt(6, zip);
+            statement.setString(7, email);
+            statement.setString(8, phone);
+            statement.setInt(9, id);
+            statement.executeUpdate();
+        }
+    }
+
     /** a method which removes an address entry from the address book
      *
      * @param lastName is the last name(or some initial consecutive chars) of the person contained
      *                 in the AddressEntry to be removed
-     *
+     * @throws SQLException when there is a database error
      * First we get the prefixSet which is the set of all AddressEntry that have the first consecutive
      * of the lastName of AddressEntry match the lastName parameter passed. If the size of the set is 1 then
      * print out AddressEntry and prompt user if they wish to delete. If more than 1 element in set then print all
      * elements and ask user to select element based on index.
      */
-    public void remove(String lastName) {
+    public void remove(String lastName) throws SQLException {
+
         //first obtain a set which contains all address entries in address book where
         //the first characters of their last name exactly match all of the chars in parameter lastname
         TreeSet<AddressEntry> s = this.getPrefixSet(lastName);
@@ -51,6 +88,8 @@ public class AddressBook {
                 System.out.printf("%-3s" + s.first() + "\n", " ");
                 System.out.println("Hit 'y' to remove the entry or 'n' to return to main menu");
                 if (keyboard.nextLine().compareTo("y") == 0)
+                    //System.out.println(s.first().getId());
+                    delete(s.first().getFirstName(), s.first().getLastName(), s.first().getStreet(), s.first().getCity(), s.first().getState(), s.first().getZip(), s.first().getEmail(), s.first().getPhone(), s.first().getId());
                     addressEntryList.get(s.first().getLastName()).remove(s.first());
             } else if (s.size() > 1) {
                 ArrayList<AddressEntry> list = new ArrayList<>();
@@ -69,6 +108,8 @@ public class AddressBook {
                 System.out.printf("%-3s" + list.get(removalIndex) + "\n\n", "  ");
                 if (keyboard.nextLine().compareTo("y") == 0) {
                     TreeSet<AddressEntry> set = addressEntryList.get(list.get(removalIndex).getLastName());
+                    //System.out.println("\n ----------------" + list.get(removalIndex).getId());
+                    delete(list.get(removalIndex).getFirstName(), list.get(removalIndex).getLastName(), list.get(removalIndex).getStreet(), list.get(removalIndex).getCity(), list.get(removalIndex).getState(), list.get(removalIndex).getZip(), list.get(removalIndex).getEmail(), list.get(removalIndex).getPhone(), list.get(removalIndex).getId());
                     set.remove(list.get(removalIndex));
                 }
             } else
@@ -83,7 +124,7 @@ public class AddressBook {
     }
 
     /**
-     * format for PreparedStatement
+     * format for PreparedStatement for INSERT
      */
     private static final String SQL_INSERT = "INSERT INTO ADDRESSENTRYTABLE (FIRSTNAME, LASTNAME, STREET, CITY, STATE, ZIP, EMAIL, PHONE, ID)"
             + " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -121,8 +162,9 @@ public class AddressBook {
 
     /** a method which adds an address entry to the address book and database
      *
-     * @param entry is an instance of AddressEntry to add to the AddressBook
-     *
+     * @param entry the instance of AddressEntry beijng added to the AddressBook and database
+     * @throws SQLException when there is a database error
+     * @throws ClassNotFoundException when correct Oracle driver is not available
      * If the key has never been seen before then a new TreeSet is created to contain the entry.
      * If the key has been seen before then entry is simply added to the correct set.
      */
@@ -141,8 +183,17 @@ public class AddressBook {
         String phone = entry.getPhone();
         Integer id = entry.getId();
 
-        create(firstName, lastName, street, city, state, zip, email, phone, id);
 
+        create(firstName, lastName, street, city, state, zip, email, phone, id);    //create an entry in the database
+
+    }
+
+    /**
+     * a method which adds an address entry to the address book only
+     * @param entry the instance of AddressEntry being added to the AddressBook
+     */
+    public void addLocally(AddressEntry entry){
+        addressEntryList.computeIfAbsent(entry.getLastName(), k -> new TreeSet<>()).add(entry);
     }
 
     /** a method which reads in address entries from a text file and adds them to the address book
@@ -165,7 +216,7 @@ public class AddressBook {
             while((line=br.readLine()) != null) {
 
                 this.add(new AddressEntry(line, br.readLine(), br.readLine(), br.readLine(),
-                                          br.readLine(), Integer.parseInt(br.readLine()), br.readLine(), br.readLine()));
+                                          br.readLine(), Integer.parseInt(br.readLine()), br.readLine(), br.readLine(), Integer.parseInt(br.readLine())));
 
                 count++;
             }
@@ -229,10 +280,18 @@ public class AddressBook {
     }
 
     /**
-     * removes all AddressEntry from the AddressBook
+     * removes all AddressEntry from the AddressBook and database
+     * @throws SQLException when there is a database error
      */
-    public void clear() {
+    public void clear() throws SQLException {
         addressEntryList.clear();
+        //Class.forName ("oracle.jdbc.OracleDriver"); //name of driver may change w/ versions
+        Connection conn =
+                DriverManager.getConnection("jdbc:oracle:thin:mcs1011/y_WrlhyT@adcsdb01.csueastbay.edu:1521/mcspdb.ad.csueastbay.edu");
+        Statement stmt = conn.createStatement ();
+        stmt.executeQuery("DELETE FROM ADDRESSENTRYTABLE");
+        stmt.close();
+        conn.close();
     }
 
     @Override

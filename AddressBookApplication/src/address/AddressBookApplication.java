@@ -9,7 +9,7 @@ import java.sql.*;
 import java.util.*;
 
 /**
- * @author Student Name
+ * @author Kaho Moon
  * @version 1.0
  * @since 1.2
  *
@@ -22,6 +22,8 @@ public class AddressBookApplication {
      * creates an AddressBook initializes the AddressBook with some AddressEntry's and
      * then prompts the user to add, delete, list, and search for entries.
      * @param args command line arguments passed to main
+     * @throws SQLException when there is a database error
+     * @throws ClassNotFoundException when the correct Oracle driver is not available
      */
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
 
@@ -80,6 +82,8 @@ public class AddressBookApplication {
     /**
      * initializes AddressBook with entries in database
      * @param ab is an instance of AddressBook class
+     * @throws SQLException when there is a database error
+     * @throws ClassNotFoundException when the correct Oracle driver is not available
      */
     public static void initAddressBook(AddressBook ab) throws SQLException, ClassNotFoundException{
 
@@ -89,11 +93,12 @@ public class AddressBookApplication {
         Statement stmt = conn.createStatement ();
         ResultSet rset = stmt.executeQuery("SELECT * FROM ADDRESSENTRYTABLE");
 
-        System.out.println(rset);
+        //System.out.println(rset);
 
         while (rset.next ()){ //get next row of table returned
 
-            ab.add(new AddressEntry(rset.getString("FirstNAME"), rset.getString("LASTNAME"), rset.getString("STREET"), rset.getString("CITY"), rset.getString("STATE"), Integer.parseInt(rset.getString("ZIP")), rset.getString("EMAIL"), rset.getString("PHONE"), Integer.parseInt(rset.getString("ID"))));
+            //adds to the tree and not database
+            ab.addLocally(new AddressEntry(rset.getString("FirstNAME"), rset.getString("LASTNAME"), rset.getString("STREET"), rset.getString("CITY"), rset.getString("STATE"), Integer.parseInt(rset.getString("ZIP")), rset.getString("EMAIL"), rset.getString("PHONE"), Integer.parseInt(rset.getString("ID"))));
 
         }
 
