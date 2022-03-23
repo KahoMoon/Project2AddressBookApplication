@@ -1,7 +1,7 @@
 package address.data;
 
 /**
- * @author Student Name
+ * @author Kaho Moon
  * @version 1.0
  * @since 1.2
  *
@@ -58,26 +58,6 @@ public class AddressEntry implements Comparable<AddressEntry>{
      * @param zip is a zip code
      * @param phone is a phone number
      * @param email is an email
-     */
-    public AddressEntry(String firstName, String lastName, String street,
-                        String city, String state, int zip, String email, String phone)
-    {
-        name = new Name(firstName, lastName);
-        address = new Address(street, city, state, zip);
-        this.phone = phone;
-        this.email = email;
-    }
-
-    /**returns an address entry initialized to the data in parameters provided
-     *
-     * @param firstName is a firstName
-     * @param lastName is a listName
-     * @param street is a street
-     * @param city is a city
-     * @param state is a state
-     * @param zip is a zip code
-     * @param phone is a phone number
-     * @param email is an email
      * @param id is an id
      */
     public AddressEntry(String firstName, String lastName, String street,
@@ -112,7 +92,7 @@ public class AddressEntry implements Comparable<AddressEntry>{
     public String toString() {
         return name.getFirstName() + " " + name.getLastName() + "\n   " +
                 address.getStreet() + "\n   " + address.getCity() + ", " + address.getState() + " " + address.getZip() +
-                "\n   " + email + "\n   " + phone;
+                "\n   " + email + "\n   " + phone  + "\n   " + id;
     }
 
     @Override
@@ -125,7 +105,7 @@ public class AddressEntry implements Comparable<AddressEntry>{
                 this.address.getState().compareTo(other.address.getState()) == 0 &&
                 this.address.getStreet().compareTo(other.address.getStreet()) == 0 &&
                 this.email.compareTo(other.email) == 0 &&
-                this.address.getZip().compareTo(other.address.getZip()) == 0) {
+                this.address.getZip().compareTo(other.address.getZip()) == 0){
             return 0;
         }
         else

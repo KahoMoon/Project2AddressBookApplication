@@ -14,13 +14,22 @@ package address.data;/*
 
 import java.sql.*;
 
+/**
+ * @author Kaho Moon
+ * @version 1.0
+ * @since 1.2
+ *
+ * The purpose of this class is to print out all entries in the database
+ */
 public class DataBaseConnect {
 
 
 
 
     /**
-     * @param args
+     * @param args command line arguments
+     * @throws SQLException when there is a database error
+     * @throws ClassNotFoundException when the correct Oracle driver is not available
      */
     public static void main(String[] args) throws SQLException, ClassNotFoundException{
 
